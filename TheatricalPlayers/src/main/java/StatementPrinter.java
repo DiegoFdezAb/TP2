@@ -49,6 +49,8 @@ public class StatementPrinter {
         }
         thisAmount += 3 * perf.audience;
         break;
+      case "NoOne":
+        throw new Error("unknown type: ${play.type}");
       default:
         throw new Error("unknown type: ${play.type}");
     }

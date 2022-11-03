@@ -22,6 +22,6 @@ public class Play {
         return type;
       }
     }
-    return "Unknown type";
+    return "NoOne";
   }
 }
