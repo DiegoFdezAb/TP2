@@ -3,7 +3,10 @@ import java.util.*;
 
 public class StatementPrinter {
   public String print(Invoice invoice, Map<String, Play> plays) {
-    int totalAmount = 0;
+    // Manage directly the sums by floating and not in full /100 (currently, $ 100 = 10000).
+    // This will allow to manage the rounding of the cents.
+
+    float totalAmount = 0;
     int volumeCredits = 0;
     String result = String.format("Statement for %s\n", invoice.customer);
     StringBuffer sb = new StringBuffer();
@@ -11,7 +14,7 @@ public class StatementPrinter {
 
     for (Performance perf : invoice.performances) {
       Play play = plays.get(perf.playID);
-      int thisAmount = amountFor(perf, play);
+      float thisAmount = amountFor(perf, play);
       // Add volume credits
       volumeCredits += Math.max(perf.audience - 30, 0);
       // Add extra credit for every ten comedy attendees
@@ -19,11 +22,11 @@ public class StatementPrinter {
 
       // Print line for this order
       // Use StringBuffer instead of String to avoid string concatenation
-      sb.append(String.format("  %s: %s (%d seats)\n", play.name, frmt.format(thisAmount / 100), perf.audience));
+      sb.append(String.format("  %s: %s (%d seats)\n", play.name, frmt.format(thisAmount), perf.audience));
       totalAmount += thisAmount;
     }
     // Use StringBuffer instead of String to avoid string concatenation
-    sb.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
+    sb.append(String.format("Amount owed is %s\n", frmt.format(totalAmount)));
     sb.append(String.format("You earned %d credits\n", volumeCredits));
     result += sb.toString();
     return result;
@@ -34,17 +37,17 @@ public class StatementPrinter {
     // Determine amount for each type of play
     switch (play.type) {
       case "tragedy":
-        thisAmount = 40000;
+        thisAmount = 400;
         if (perf.audience > 30) {
-          thisAmount += 1000 * (perf.audience - 30);
+          thisAmount += 10 * (perf.audience - 30);
         }
         break;
       case "comedy":
-        thisAmount = 30000;
+        thisAmount = 300;
         if (perf.audience > 20) {
-          thisAmount += 10000 + 500 * (perf.audience - 20);
+          thisAmount += 100 + 5 * (perf.audience - 20);
         }
-        thisAmount += 300 * perf.audience;
+        thisAmount += 3 * perf.audience;
         break;
       default:
         throw new Error("unknown type: ${play.type}");
