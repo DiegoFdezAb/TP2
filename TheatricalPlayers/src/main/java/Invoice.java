@@ -60,13 +60,15 @@ NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
         }
         thisAmount += 3 * perf.audience;
         break;
-      case "NoOne":
-        throw new Error("unknown type: ${play.type}");
       default:
         throw new Error("unknown type: ${play.type}");
     }
     return thisAmount;
   }
+
+
+  //Info to text
+
 
   public String toText() {
     sb.append("Statement for " + customerName + "\n");
@@ -77,6 +79,10 @@ NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
     sb.append("You earned " + volumeCredits + " credits" + "\n");
     return sb.toString();
   }
+
+
+  //Info to HTML
+
 
   public void toHTML() throws IOException {
     // Create a new file

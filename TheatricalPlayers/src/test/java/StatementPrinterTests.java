@@ -42,21 +42,7 @@ public class StatementPrinterTests {
             statementPrinter.toText(invoice, plays);
         });
     }
-    @Test
-    void statementWithNewPlayTypes2() {
-        Map<String, Play> plays = Map.of(
-                "henry-v",  new Play("Henry V", "history"),
-                "as-like", new Play("As You Like It", "pastoral"));
-
-        Invoice invoice = new Invoice("BigCo", List.of(
-                new Performance("henry-v", 53),
-                new Performance("as-like", 55)));
-
-        StatementPrinter statementPrinter = new StatementPrinter();
-        Assertions.assertThrows(Error.class, () -> {
-            statementPrinter.toText(invoice, plays);
-        });
-    }
+    
     //HTML test
     @Test
     void exampleStatementHTML() throws IOException {
