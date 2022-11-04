@@ -3,7 +3,7 @@ public class Play {
   //Add enum to get new types of plays
 
   public enum Type {
-    tragedy, comedy, history
+    tragedy, comedy
   }
 
   public String name;

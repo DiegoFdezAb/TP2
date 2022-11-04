@@ -16,7 +16,9 @@ public class StatementPrinterTests {
                 "as-like", new Play("As You Like It", "comedy"),
                 "othello", new Play("Othello", "tragedy"));
 
-        Invoice invoice = new Invoice("BigCo", List.of(
+        Customer customer = new Customer("BigCo", 0);
+
+        Invoice invoice = new Invoice(customer, List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
                 new Performance("othello", 40)));
@@ -32,8 +34,8 @@ public class StatementPrinterTests {
         Map<String, Play> plays = Map.of(
                 "henry-v",  new Play("Henry V", "history"),
                 "as-like", new Play("As You Like It", "pastoral"));
-
-        Invoice invoice = new Invoice("BigCo", List.of(
+                Customer customer = new Customer("BigCo", 130);
+        Invoice invoice = new Invoice(customer, List.of(
                 new Performance("henry-v", 53),
                 new Performance("as-like", 55)));
 
@@ -50,8 +52,24 @@ public class StatementPrinterTests {
                 "hamlet",  new Play("Hamlet", "tragedy"),
                 "as-like", new Play("As You Like It", "comedy"),
                 "othello", new Play("Othello", "tragedy"));
+                Customer customer = new Customer("BigCo", 150);
+        Invoice invoice = new Invoice(customer, List.of(
+                new Performance("hamlet", 55),
+                new Performance("as-like", 35),
+                new Performance("othello", 40)));
 
-        Invoice invoice = new Invoice("BigCo", List.of(
+        StatementPrinter statementPrinter = new StatementPrinter();
+        statementPrinter.toHTML(invoice, plays);
+    }
+    //HTML test with 150 fidelityPoints
+    @Test
+    void exampleStatementHTML2() throws IOException {
+        Map<String, Play> plays = Map.of(
+                "hamlet",  new Play("Hamlet", "tragedy"),
+                "as-like", new Play("As You Like It", "comedy"),
+                "othello", new Play("Othello", "tragedy"));
+                Customer customer = new Customer("BigCo", 0);
+        Invoice invoice = new Invoice(customer, List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
                 new Performance("othello", 40)));

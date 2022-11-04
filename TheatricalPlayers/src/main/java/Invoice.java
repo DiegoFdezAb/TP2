@@ -6,12 +6,12 @@ import java.text.NumberFormat;
 import java.util.*;
 
 public class Invoice {
-  public String customer;
+  public Customer customer;
   public List<Performance> performances;
   public float totalAmount;
   public int volumeCredits;
 
-  public Invoice(String customer, List<Performance> performances) {
+  public Invoice(Customer customer, List<Performance> performances) {
     this.customer = customer;
     this.performances = performances;
     this.totalAmount = 0;
@@ -20,12 +20,11 @@ public class Invoice {
 
   List <Info> info = new ArrayList<Info>();
   StringBuffer sb = new StringBuffer();
-  String customerName= "";
-NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+  NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+  Customer customer1;
   public Invoice(Invoice invoice, Map<String, Play> plays) {   
 
-    
-    customerName = invoice.customer;
+    customer1 = invoice.customer;
     for (Performance perf : invoice.performances) {
       Play play = plays.get(perf.playID);
       float thisAmount = amountFor(perf, play);
@@ -33,6 +32,13 @@ NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
       volumeCredits += Math.max(perf.audience - 30, 0);
       // Add extra credit for every ten comedy attendees
       if ("comedy".equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
+
+      customer1.fidelityPoints += volumeCredits;
+      // fidelityPoints more than 150, price is 15€ less and we supp 150 fidelityPoints
+      if (customer1.fidelityPoints > 150) {
+        thisAmount -= 15;
+        customer1.fidelityPoints -= 150;
+      }
 
       // i stock the information of the play name, the amount and the audience in a list of Info objects
 
@@ -71,7 +77,7 @@ NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
 
   public String toText() {
-    sb.append("Statement for " + customerName + "\n");
+    sb.append("Statement for " + customer1.name + "\n");
     for (Info i : info) {
       sb.append("  " + i.name + ": " + i.amount + " (" + i.audience + " seats)\n");
     }
@@ -90,12 +96,10 @@ NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
     // Create a new buffered writer
     BufferedWriter bw = new BufferedWriter(new FileWriter(f));
     // Write the HTML in file with tab and visible line break
-    
-
 
     bw.write("<h1>Invoice</h1>");
     //Write "(dot) Client :" in bold and customername normal
-    bw.write("<b>Client :</b> " + customerName + "");   
+    bw.write("<b>Client :</b> " + customer1.name + "");   
 
     bw.write("<table border = 1>");
     bw.write("<tr><th>Piece</th><th>Seats sold</th><th>Price</th></tr>");
