@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="StatementPrinterTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-11-04T17:29:38" hostname="LAPTOP-A2BC1LTT" time="0.541">
+  <properties/>
+  <testcase name="exampleStatementHTML()" classname="StatementPrinterTests" time="0.137"/>
+  <testcase name="exampleStatement()" classname="StatementPrinterTests" time="0.383"/>
+  <testcase name="statementWithNewPlayTypes()" classname="StatementPrinterTests" time="0.014"/>
+  <testcase name="statementWithNewPlayTypes2()" classname="StatementPrinterTests" time="0.002"/>
+  <system-out><![CDATA[Statement for BigCo
+  Hamlet: $650.00 (55 seats)
+  As You Like It: $580.00 (35 seats)
+  Othello: $500.00 (40 seats)
+Amount owed is $1,730.00
+You earned 47 credits
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
